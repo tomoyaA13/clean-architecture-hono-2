@@ -1,16 +1,17 @@
-export interface SendEmailOptions {
-  email: string;
+// src/application/port/out/send-email-port.ts
+export interface EmailMessage {
+  to: string;
   subject: string;
-  initialSentence: string;
-  secondSentenceEnding: string;
-  constructedLink: string;
+  html: string;
+  replyTo?: string;
 }
 
-export interface SendEmailResult {
-  status: 'success' | 'error';
-  message?: string;
+export interface EmailResult {
+  id: string;
+  success: boolean;
+  error?: string;
 }
 
 export interface SendEmailPort {
-  sendEmail(options: SendEmailOptions): Promise<SendEmailResult>;
+  send(message: EmailMessage): Promise<EmailResult>;
 }

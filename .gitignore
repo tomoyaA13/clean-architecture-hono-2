@@ -1,33 +1,39 @@
-# prod
-dist/
-
-# dev
-.yarn/
-!.yarn/releases
-.vscode/*
-!.vscode/launch.json
-!.vscode/*.code-snippets
-.idea/workspace.xml
-.idea/usage.statistics.xml
-.idea/shelf
-
-# deps
+# Dependencies
 node_modules/
-.wrangler
+.pnpm-store/
 
-# env
+# Build outputs
+dist/
+build/
+.wrangler/
+
+# Environment files
 .env
-.env.production
+.env.*
 .dev.vars
+!.env.example
 
-# logs
-logs/
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
 *.log
 npm-debug.log*
+pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
 
-# misc
-.DS_Store
+# Testing
+coverage/
+.nyc_output
+
+# Prisma
+prisma/migrations/dev/
+
+# Cloudflare
+.mf/

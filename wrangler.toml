@@ -1,0 +1,52 @@
+# wrangler.toml
+name = "lms-server"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+minify = true
+
+# アカウントID（必要に応じて設定）
+# account_id = "your-account-id"
+
+# 開発環境設定
+[dev]
+port = 8787
+local_protocol = "http"
+
+# 環境変数の設定（本番環境）
+[vars]
+NODE_ENV = "production"
+PORT_NUMBER = "8787"
+EMAIL_FROM_ADDRESS = "noreply@example.com"
+FRONTEND_URL = "https://your-app.com"
+USE_MOCK_EMAIL = "false"
+USE_MOCK_DB = "false"
+
+# シークレット環境変数（CLIまたはダッシュボードで設定）
+# これらはコミットしない - wrangler secret putコマンドで設定
+# - POSTGRES_PRISMA_URL
+# - POSTGRES_URL_NON_POOLING  
+# - RESEND_API_KEY
+# - EMAIL_REPLY_TO
+
+# KVネームスペース（必要に応じて）
+# [[kv_namespaces]]
+# binding = "MY_KV"
+# id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+# R2バケット（必要に応じて）
+# [[r2_buckets]]
+# binding = "MY_BUCKET"
+# bucket_name = "my-bucket"
+
+# Durable Objects（必要に応じて）
+# [[durable_objects.bindings]]
+# name = "MY_DURABLE_OBJECT"
+# class_name = "MyDurableObject"
+
+# 静的ファイル配信（必要に応じて）
+# assets = { directory = "public" }
+
+# ルーティング設定
+# routes = [
+#   { pattern = "api.example.com/*", zone_name = "example.com" }
+# ]
