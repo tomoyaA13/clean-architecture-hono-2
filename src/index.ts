@@ -45,6 +45,9 @@ app.use('*', async (c, next) => {
     if (envConfig.config.env.isDevelopment) {
       console.log('🔧 環境設定が正常に読み込まれました');
     }
+    
+    // 次のミドルウェアに処理を渡す
+    return await next();
   } catch (error) {
     console.error('環境変数の検証に失敗しました:', error);
     return c.json(
@@ -57,8 +60,6 @@ app.use('*', async (c, next) => {
       500,
     );
   }
-
-  await next();
 });
 
 // Prisma ミドルウェア（API ルートのみ）
