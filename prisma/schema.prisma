@@ -6,9 +6,10 @@
 
 generator client {
   provider        = "prisma-client-js"
+  // queryCompiler: パフォーマンス向上
   // relationJoins: ジョイン戦略の最適化
   // driverAdapters: pgドライバーアダプターを使用可能に
-  previewFeatures = ["driverAdapters", "relationJoins"]
+  previewFeatures = ["queryCompiler", "driverAdapters", "relationJoins"]
 }
 
 datasource db {
