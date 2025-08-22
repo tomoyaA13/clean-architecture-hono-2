@@ -3,6 +3,10 @@ import { LoadAdminInvitationPort } from '../../../application/port/out/load-admi
 import { SaveAdminInvitationPort } from '../../../application/port/out/save-admin-invitation-port';
 import { RepositoryTestSupport } from '../../../application/port/out/repository-test-support';
 
+/**
+ * モック実装のリポジトリ
+ * テストや開発時にデータベース接続なしで動作
+ */
 export class MockAdminInvitationRepository implements LoadAdminInvitationPort, SaveAdminInvitationPort, RepositoryTestSupport<string[]> {
   private invitations: Map<string, AdminInvitation> = new Map();
 
@@ -26,14 +30,11 @@ export class MockAdminInvitationRepository implements LoadAdminInvitationPort, S
 
   async save(invitation: AdminInvitation): Promise<void> {
     this.invitations.set(invitation.id, invitation);
-    console.log(`💾 Mock Repository - Saved invitation for ${invitation.email}`);
   }
 
   async clear(ids?: string[]): Promise<void> {
     if (ids && ids.length > 0) {
-      for (const id of ids) {
-        this.invitations.delete(id);
-      }
+      ids.forEach((id) => this.invitations.delete(id));
     } else {
       this.invitations.clear();
     }
@@ -42,5 +43,9 @@ export class MockAdminInvitationRepository implements LoadAdminInvitationPort, S
   // テスト用のヘルパーメソッド
   getAll(): AdminInvitation[] {
     return Array.from(this.invitations.values());
+  }
+
+  size(): number {
+    return this.invitations.size;
   }
 }

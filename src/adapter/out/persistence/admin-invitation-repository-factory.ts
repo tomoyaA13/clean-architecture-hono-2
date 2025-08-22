@@ -7,6 +7,12 @@ import { PrismaAdminInvitationRepository } from './prisma-admin-invitation-repos
 export interface AdminInvitationRepository extends LoadAdminInvitationPort, SaveAdminInvitationPort {}
 
 export class AdminInvitationRepositoryFactory {
+  /**
+   * Repository を作成
+   * @param useMockDb モックDBを使用するかどうか
+   * @param prisma PrismaClient インスタンス（モックDB使用時は不要）
+   * @returns AdminInvitationRepository の実装
+   */
   static create(useMockDb: boolean, prisma?: PrismaClient): AdminInvitationRepository {
     if (useMockDb) {
       return new MockAdminInvitationRepository();

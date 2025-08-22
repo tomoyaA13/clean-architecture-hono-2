@@ -2,7 +2,7 @@ import { Context } from 'hono';
 import { CreateAdminInvitationUseCase } from '../../../../application/port/in/create-admin-invitation-use-case';
 import { DomainError, ErrorType } from '../../../../common/errors/domain-error';
 import { EnvConfig } from '../../../../common/env-config';
-import { Bindings } from '../../../../types/bindings';
+import { AppContext } from '../../../../types/app-context';
 
 /**
  * 受信アダプター は 受信ポート(ユースケースインターフェイス) を使用します。
@@ -17,7 +17,7 @@ export class AdminInvitationsController {
   /**
    * 管理者招待を作成するハンドラー
    */
-  async create(c: Context<{ Bindings: Bindings }>) {
+  async create(c: Context<AppContext>) {
     const { email } = await c.req.json<{ email: string }>();
     const config = this.envConfig.config;
 

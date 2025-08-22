@@ -9,11 +9,13 @@ export class EnvConfig {
     this.rawEnv = env;
 
     // 環境変数を検証
+    // 新旧両方の環境変数名をサポート
     const parseResult = EnvSchema.safeParse({
       NODE_ENV: env.NODE_ENV,
       PORT_NUMBER: env.PORT_NUMBER ? parseInt(env.PORT_NUMBER) : undefined,
-      POSTGRES_PRISMA_URL: env.POSTGRES_PRISMA_URL,
-      POSTGRES_URL_NON_POOLING: env.POSTGRES_URL_NON_POOLING,
+      // 新しい環境変数名を優先、古い名前にフォールバック
+      DATABASE_URL: env.DATABASE_URL || env.POSTGRES_PRISMA_URL,
+      DIRECT_DATABASE_URL: env.DIRECT_DATABASE_URL || env.POSTGRES_URL_NON_POOLING,
       USE_MOCK_DB: env.USE_MOCK_DB,
       RESEND_API_KEY: env.RESEND_API_KEY,
       EMAIL_FROM_ADDRESS: env.EMAIL_FROM_ADDRESS,
@@ -44,8 +46,8 @@ export class EnvConfig {
       }
 
       // 本番環境ではデータベース接続情報が必須（モックDBを使わない場合）
-      if (!this.validatedEnv.USE_MOCK_DB && !this.validatedEnv.POSTGRES_PRISMA_URL) {
-        throw new Error('本番環境でUSE_MOCK_DB=falseの場合、POSTGRES_PRISMA_URLは必須です');
+      if (!this.validatedEnv.USE_MOCK_DB && !this.validatedEnv.DATABASE_URL) {
+        throw new Error('本番環境でUSE_MOCK_DB=falseの場合、DATABASE_URLは必須です');
       }
     }
   }
@@ -70,8 +72,10 @@ export class EnvConfig {
         frontEndUrl: this.validatedEnv.FRONTEND_URL,
       },
       database: {
-        url: this.validatedEnv.POSTGRES_PRISMA_URL,
-        urlNonPooling: this.validatedEnv.POSTGRES_URL_NON_POOLING,
+        url: this.validatedEnv.DATABASE_URL,
+        directUrl: this.validatedEnv.DIRECT_DATABASE_URL,
+        // 後方互換性のため古いプロパティ名も保持
+        urlNonPooling: this.validatedEnv.DIRECT_DATABASE_URL,
         useMock: this.validatedEnv.USE_MOCK_DB || false,
       },
       cloudflare: {

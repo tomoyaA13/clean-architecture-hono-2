@@ -1,12 +1,6 @@
 import { Context, Next } from 'hono';
-import { PrismaClient } from '@prisma/client';
 import { PrismaClientFactory } from '../../../out/persistence/prisma-client-factory';
-import { Bindings } from '../../../../types/bindings';
-
-// Variables に PrismaClient を追加
-export type PrismaVariables = {
-  prisma: PrismaClient;
-};
+import { AppContext } from '../../../../types/app-context';
 
 /**
  * Prismaミドルウェア
@@ -14,14 +8,20 @@ export type PrismaVariables = {
  * 明示的な$disconnect()は呼ばず、コンテナ再利用を活用
  * 参考: https://www.prisma.io/docs/orm/prisma-client/setup-and-configuration/databases-connections#do-not-explicitly-disconnect
  */
-export async function prismaMiddleware(c: Context<{ Bindings: Bindings; Variables: PrismaVariables }>, next: Next) {
+export async function prismaMiddleware(c: Context<AppContext>, next: Next) {
+  const envConfig = c.var.envConfig;
+
+  if (!envConfig) {
+    throw new Error('EnvConfig is not set. Ensure env-config middleware runs before prisma middleware.');
+  }
+
   // モックDBを使用する場合はスキップ
-  const useMockDb = c.env.USE_MOCK_DB === 'true';
+  const useMockDb = envConfig.config.database.useMock;
   if (useMockDb) {
     return next();
   }
 
-  const databaseUrl = c.env.DATABASE_URL;
+  const databaseUrl = envConfig.config.database.url;
 
   if (!databaseUrl) {
     throw new Error('DATABASE_URL is not configured');

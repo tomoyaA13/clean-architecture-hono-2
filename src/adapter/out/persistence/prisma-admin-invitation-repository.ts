@@ -22,8 +22,8 @@ export class PrismaAdminInvitationRepository implements LoadAdminInvitationPort,
       email: invitation.email,
       token: invitation.invitation_token,
       expiresAt: invitation.expires_at,
-      statusCode: invitation.status_code,
       createdAt: invitation.created_at,
+      usedAt: null, // ステータスに基づいて判定する必要がある場合は修正
     });
   }
 
@@ -42,8 +42,8 @@ export class PrismaAdminInvitationRepository implements LoadAdminInvitationPort,
       email: invitation.email,
       token: invitation.invitation_token,
       expiresAt: invitation.expires_at,
-      statusCode: invitation.status_code,
       createdAt: invitation.created_at,
+      usedAt: null, // ステータスに基づいて判定する必要がある場合は修正
     });
   }
 
@@ -54,14 +54,14 @@ export class PrismaAdminInvitationRepository implements LoadAdminInvitationPort,
         email: invitation.email,
         invitation_token: invitation.token,
         expires_at: invitation.expiresAt,
-        status_code: invitation.statusCode,
+        status_code: invitation.isUsed() ? 'accepted' : 'pending', // ステータスのマッピング
       },
       create: {
         id: invitation.id,
         email: invitation.email,
         invitation_token: invitation.token,
         expires_at: invitation.expiresAt,
-        status_code: invitation.statusCode,
+        status_code: 'pending', // 新規作成時は待機中
         created_at: invitation.createdAt,
       },
     });

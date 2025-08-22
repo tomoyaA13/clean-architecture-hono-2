@@ -2,12 +2,12 @@ import { Context } from 'hono';
 import { HTTPException } from 'hono/http-exception';
 import { ZodError } from 'zod';
 import { DomainError, ErrorType } from '../../../../common/errors/domain-error';
-import { Bindings } from '../../../../types/bindings';
+import { AppContext } from '../../../../types/app-context';
 
 /**
  * グローバルエラーハンドラー
  */
-export const errorHandler = (error: Error, c: Context<{ Bindings: Bindings }>) => {
+export const errorHandler = (error: Error, c: Context<AppContext>) => {
   console.error('Error occurred:', error);
 
   // Honoの HTTPException

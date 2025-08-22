@@ -4,22 +4,14 @@ import { logger } from 'hono/logger';
 import { compress } from 'hono/compress';
 import { secureHeaders } from 'hono/secure-headers';
 import { timing } from 'hono/timing';
-import { Bindings } from './types/bindings';
+import { AppContext } from './types/app-context';
 import { EnvConfig } from './common/env-config';
 import { adminInvitationsRouter } from './adapter/in/web/routes/admin-invitations';
 import { errorHandler } from './adapter/in/web/middleware/error-handler';
-import { DomainError } from './common/errors/domain-error';
-
-// Variables型の定義（リクエストごとの変数）
-type Variables = {
-  envConfig: EnvConfig;
-};
+import { prismaMiddleware } from './adapter/in/web/middleware/prisma-middleware';
 
 // Honoアプリケーションの作成
-const app = new Hono<{
-  Bindings: Bindings;
-  Variables: Variables;
-}>();
+const app = new Hono<AppContext>();
 
 // グローバルミドルウェア
 app.use('*', logger());
@@ -68,6 +60,10 @@ app.use('*', async (c, next) => {
 
   await next();
 });
+
+// Prisma ミドルウェア（API ルートのみ）
+// 注意: envConfig ミドルウェアの後に適用する必要がある
+app.use('/api/*', prismaMiddleware);
 
 // エラーハンドリングミドルウェア
 app.onError(errorHandler);
