@@ -1,4 +1,3 @@
-// src/index.ts
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
@@ -17,7 +16,7 @@ type Variables = {
 };
 
 // Honoアプリケーションの作成
-const app = new Hono<{ 
+const app = new Hono<{
   Bindings: Bindings;
   Variables: Variables;
 }>();
@@ -32,16 +31,14 @@ app.use('*', secureHeaders());
 app.use('*', async (c, next) => {
   const envConfig = new EnvConfig(c.env);
   const config = envConfig.config;
-  
+
   const corsMiddleware = cors({
-    origin: config.env.isProduction 
-      ? [config.email.frontEndUrl]
-      : '*',
+    origin: config.env.isProduction ? [config.email.frontEndUrl] : '*',
     credentials: true,
     allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowHeaders: ['Content-Type', 'Authorization'],
   });
-  
+
   return corsMiddleware(c, next);
 });
 
@@ -51,21 +48,24 @@ app.use('*', async (c, next) => {
     // 環境変数を検証してVariablesに格納
     const envConfig = new EnvConfig(c.env);
     c.set('envConfig', envConfig);
-    
+
     // 開発環境では環境設定をログ出力
     if (envConfig.config.env.isDevelopment) {
       console.log('🔧 環境設定が正常に読み込まれました');
     }
   } catch (error) {
     console.error('環境変数の検証に失敗しました:', error);
-    return c.json({
-      error: {
-        message: 'Internal Server Error',
-        code: 'ENV_CONFIG_ERROR',
-      }
-    }, 500);
+    return c.json(
+      {
+        error: {
+          message: 'Internal Server Error',
+          code: 'ENV_CONFIG_ERROR',
+        },
+      },
+      500,
+    );
   }
-  
+
   await next();
 });
 
@@ -87,13 +87,16 @@ app.route('/api/admin-invitations', adminInvitationsRouter);
 
 // 404ハンドラー
 app.notFound((c) => {
-  return c.json({
-    error: {
-      message: 'Not Found',
-      code: 'NOT_FOUND',
-      path: c.req.path,
-    }
-  }, 404);
+  return c.json(
+    {
+      error: {
+        message: 'Not Found',
+        code: 'NOT_FOUND',
+        path: c.req.path,
+      },
+    },
+    404,
+  );
 });
 
 // Cloudflare Workersのエクスポート

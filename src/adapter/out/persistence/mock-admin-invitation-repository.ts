@@ -1,12 +1,9 @@
-// src/adapter/out/persistence/mock-admin-invitation-repository.ts
 import { AdminInvitation } from '../../../domain/model/admin-invitation';
 import { LoadAdminInvitationPort } from '../../../application/port/out/load-admin-invitation-port';
 import { SaveAdminInvitationPort } from '../../../application/port/out/save-admin-invitation-port';
 import { RepositoryTestSupport } from '../../../application/port/out/repository-test-support';
 
-export class MockAdminInvitationRepository 
-  implements LoadAdminInvitationPort, SaveAdminInvitationPort, RepositoryTestSupport<string[]> {
-  
+export class MockAdminInvitationRepository implements LoadAdminInvitationPort, SaveAdminInvitationPort, RepositoryTestSupport<string[]> {
   private invitations: Map<string, AdminInvitation> = new Map();
 
   async findByEmail(email: string): Promise<AdminInvitation | null> {

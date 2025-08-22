@@ -1,14 +1,13 @@
-// src/adapter/out/persistence/prisma-client-factory-alternative.ts
 import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { Pool } from 'pg';
 
 /**
  * 代替実装：Cloudflare Workers の制約を考慮したバージョン
- * 
+ *
  * Cloudflare Workers では、異なるリクエスト間でI/O操作を共有すると
  * "Cannot perform I/O on behalf of a different request" エラーが発生する可能性があります。
- * 
+ *
  * この実装は、より安全ですがパフォーマンスは劣る可能性があります。
  * プロジェクトの要件に応じて選択してください。
  */
@@ -27,12 +26,10 @@ export class PrismaClientFactoryAlternative {
     });
 
     const adapter = new PrismaPg(pool);
-    
-    return new PrismaClient({ 
+
+    return new PrismaClient({
       adapter,
-      log: process.env.NODE_ENV === 'development' 
-        ? ['query', 'error', 'warn'] 
-        : ['error']
+      log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
     });
   }
 }

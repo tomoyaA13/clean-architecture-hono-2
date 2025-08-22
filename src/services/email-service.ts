@@ -1,21 +1,16 @@
-// src/services/email-service.ts
 import { EmailMessage, EmailResult } from '../application/port/out/send-email-port';
 
 export interface EmailServiceInterface {
   send(message: EmailMessage): Promise<EmailResult>;
 }
 
-export function createEmailService(config: {
-  apiKey?: string;
-  fromAddress: string;
-  useMock: boolean;
-}): EmailServiceInterface {
+export function createEmailService(config: { apiKey?: string; fromAddress: string; useMock: boolean }): EmailServiceInterface {
   if (config.useMock) {
     return {
       async send(message: EmailMessage): Promise<EmailResult> {
         console.log('Mock email sent to:', message.to);
         return { id: 'mock-id', success: true };
-      }
+      },
     };
   }
 
@@ -25,7 +20,7 @@ export function createEmailService(config: {
       const response = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${config.apiKey}`,
+          Authorization: `Bearer ${config.apiKey}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -42,6 +37,6 @@ export function createEmailService(config: {
 
       const data = await response.json();
       return { id: data.id, success: true };
-    }
+    },
   };
 }

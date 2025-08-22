@@ -1,4 +1,3 @@
-// src/application/port/out/send-email-port.ts
 export interface EmailMessage {
   to: string;
   subject: string;

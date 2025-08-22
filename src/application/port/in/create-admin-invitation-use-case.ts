@@ -1,4 +1,3 @@
-// src/application/port/in/create-admin-invitation-use-case.ts
 import { AdminInvitation } from '../../../domain/model/admin-invitation';
 
 export interface CreateAdminInvitationCommand {

@@ -1,4 +1,3 @@
-// src/common/errors/domain-error.ts
 export enum ErrorType {
   VALIDATION_ERROR = 'VALIDATION_ERROR',
   INVALID_INPUT = 'INVALID_INPUT',

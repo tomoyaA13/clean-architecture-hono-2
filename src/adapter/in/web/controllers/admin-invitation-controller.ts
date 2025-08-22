@@ -1,4 +1,3 @@
-// src/adapter/in/web/controllers/admin-invitation-controller.ts
 import { Context } from 'hono';
 import { CreateAdminInvitationUseCase } from '../../../../application/port/in/create-admin-invitation-use-case';
 import { DomainError, ErrorType } from '../../../../common/errors/domain-error';
@@ -12,7 +11,7 @@ import { Bindings } from '../../../../types/bindings';
 export class AdminInvitationsController {
   constructor(
     private readonly createAdminInvitationUseCase: CreateAdminInvitationUseCase,
-    private readonly envConfig: EnvConfig
+    private readonly envConfig: EnvConfig,
   ) {}
 
   /**
@@ -21,15 +20,12 @@ export class AdminInvitationsController {
   async create(c: Context<{ Bindings: Bindings }>) {
     const { email } = await c.req.json<{ email: string }>();
     const config = this.envConfig.config;
-    
+
     // 環境設定からフロントエンドURLを取得
     const frontendOrigin = config.email.frontEndUrl;
 
     if (!frontendOrigin) {
-      throw new DomainError(
-        ErrorType.CONFIGURATION_ERROR, 
-        '招待リンクの生成に必要なフロントエンドURLが設定されていません。'
-      );
+      throw new DomainError(ErrorType.CONFIGURATION_ERROR, '招待リンクの生成に必要なフロントエンドURLが設定されていません。');
     }
 
     // UseCase に frontendOrigin を渡して招待を作成

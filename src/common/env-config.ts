@@ -1,4 +1,3 @@
-// src/common/env-config.ts
 import { Context } from 'hono';
 import { Bindings, EnvSchema } from '../types/bindings';
 
@@ -8,7 +7,7 @@ export class EnvConfig {
 
   constructor(env: Bindings) {
     this.rawEnv = env;
-    
+
     // 環境変数を検証
     const parseResult = EnvSchema.safeParse({
       NODE_ENV: env.NODE_ENV,
@@ -32,7 +31,7 @@ export class EnvConfig {
     }
 
     this.validatedEnv = parseResult.data;
-    
+
     // 本番環境での追加検証
     this.validateProduction();
   }

@@ -1,4 +1,3 @@
-// src/application/service/create-admin-invitation-application-service.ts
 import {
   CreateAdminInvitationUseCase,
   CreateAdminInvitationCommand,
@@ -15,30 +14,24 @@ export class CreateAdminInvitationApplicationService implements CreateAdminInvit
     private readonly domainService: AdminInvitationDomainService,
     private readonly loadPort: LoadAdminInvitationPort,
     private readonly savePort: SaveAdminInvitationPort,
-    private readonly emailPort: SendEmailPort
+    private readonly emailPort: SendEmailPort,
   ) {}
 
   async createInvitation(command: CreateAdminInvitationCommand): Promise<CreateAdminInvitationResult> {
     // 既存の招待を確認
     const existingInvitation = await this.loadPort.findByEmail(command.email);
     if (existingInvitation && !existingInvitation.isExpired() && !existingInvitation.isUsed()) {
-      throw new DomainError(
-        ErrorType.CONFLICT,
-        'この電子メールアドレスの有効な招待が既に存在します'
-      );
+      throw new DomainError(ErrorType.CONFLICT, 'この電子メールアドレスの有効な招待が既に存在します');
     }
 
     // 新しい招待を作成
     const invitation = this.domainService.createInvitation(command.email);
-    
+
     // 招待を保存
     await this.savePort.save(invitation);
 
     // 検証リンクを生成
-    const verificationLink = this.domainService.buildVerificationLink(
-      command.frontendOrigin,
-      invitation.token
-    );
+    const verificationLink = this.domainService.buildVerificationLink(command.frontendOrigin, invitation.token);
 
     // メールを送信
     const emailResult = await this.emailPort.send({
@@ -48,10 +41,7 @@ export class CreateAdminInvitationApplicationService implements CreateAdminInvit
     });
 
     if (!emailResult.success) {
-      throw new DomainError(
-        ErrorType.INTERNAL_ERROR,
-        `メール送信に失敗しました: ${emailResult.error}`
-      );
+      throw new DomainError(ErrorType.INTERNAL_ERROR, `メール送信に失敗しました: ${emailResult.error}`);
     }
 
     return {

@@ -1,4 +1,3 @@
-// src/adapter/out/email/mock-email-service.ts
 import { SendEmailPort, EmailMessage, EmailResult } from '../../../application/port/out/send-email-port';
 
 export class MockEmailService implements SendEmailPort {
@@ -9,9 +8,9 @@ export class MockEmailService implements SendEmailPort {
     console.log('To:', message.to);
     console.log('Subject:', message.subject);
     console.log('---');
-    
+
     this.sentEmails.push(message);
-    
+
     return {
       id: `mock_${Date.now()}`,
       success: true,
