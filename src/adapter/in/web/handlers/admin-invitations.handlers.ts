@@ -3,6 +3,7 @@ import { AdminInvitationServiceFactory } from '../../../config/admin-invitation-
 import { AppContext } from '../../../../types/app-context';
 import { AppRouteHandler } from '../common/app-route-handler';
 import { CreateRoute } from '../routes/admin-invitations/routes';
+import { DomainError, ErrorType } from '../../../../common/errors/domain-error';
 
 /**
  * 管理者招待ハンドラー
@@ -21,7 +22,7 @@ export const create: AppRouteHandler<CreateRoute> = async (c: Context<AppContext
   const frontendOrigin = config.email.frontEndUrl;
 
   if (!frontendOrigin) {
-    throw new Error('招待リンクの生成に必要なフロントエンドURLが設定されていません。');
+    throw new DomainError(ErrorType.CONFIGURATION_ERROR, '招待リンクの生成に必要なフロントエンドURLが設定されていません。');
   }
 
   // UseCase に frontendOrigin を渡して招待を作成
