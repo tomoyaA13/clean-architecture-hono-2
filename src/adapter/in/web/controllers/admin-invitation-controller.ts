@@ -1,8 +1,8 @@
 import { CreateAdminInvitationUseCase } from '../../../../application/port/in/create-admin-invitation-use-case';
 import { DomainError, ErrorType } from '../../../../common/errors/domain-error';
 import { EnvConfig } from '../../../../common/env-config';
-import { CreateRoute } from '../routes/admin-invitations';
 import { AppRouteHandler } from '../common/app-route-handler';
+import { CreateRoute } from '../routes/admin-invitations/routes';
 
 /**
  * 受信アダプター は 受信ポート(ユースケースインターフェイス) を使用します。
