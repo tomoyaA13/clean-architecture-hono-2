@@ -6,7 +6,7 @@
 
 generator client {
   provider        = "prisma-client-js"
-  // queryCompiler: パフォーマンス向上
+  // queryCompiler: パフォーマンス向上(https://www.prisma.io/docs/orm/prisma-client/deployment/deploy-to-a-different-os)
   // relationJoins: ジョイン戦略の最適化
   // driverAdapters: pgドライバーアダプターを使用可能に
   previewFeatures = ["queryCompiler", "driverAdapters", "relationJoins"]
