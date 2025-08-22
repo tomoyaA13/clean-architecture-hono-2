@@ -7,10 +7,8 @@
 generator client {
   provider        = "prisma-client-js"
   // relationJoins: ジョイン戦略の最適化
-  // queryCompiler: Rustエンジンを削除してバンドルサイズを削減
   // driverAdapters: pgドライバーアダプターを使用可能に
-  previewFeatures = ["queryCompiler", "driverAdapters", "relationJoins"]
-  output          = "../generated/prisma"
+  previewFeatures = ["driverAdapters", "relationJoins"]
 }
 
 datasource db {
