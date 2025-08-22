@@ -1,7 +1,6 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
-import { compress } from 'hono/compress';
 import { secureHeaders } from 'hono/secure-headers';
 import { timing } from 'hono/timing';
 import { AppContext } from './types/app-context';
@@ -15,9 +14,8 @@ const app = new Hono<AppContext>();
 
 // グローバルミドルウェア
 app.use('*', logger());
-app.use('*', timing());
-app.use('*', compress());
-app.use('*', secureHeaders());
+app.use('*', timing()); // https://hono.dev/docs/middleware/builtin/timing
+app.use('*', secureHeaders()); // https://hono.dev/docs/middleware/builtin/secure-headers
 
 // CORS設定（環境に応じて調整）
 app.use('*', async (c, next) => {
@@ -45,7 +43,7 @@ app.use('*', async (c, next) => {
     if (envConfig.config.env.isDevelopment) {
       console.log('🔧 環境設定が正常に読み込まれました');
     }
-    
+
     // 次のミドルウェアに処理を渡す
     return await next();
   } catch (error) {
