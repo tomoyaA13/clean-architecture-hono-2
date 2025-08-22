@@ -11,6 +11,7 @@ import { prismaMiddleware } from './adapter/in/web/middleware/prisma-middleware'
 import configureOpenAPI from './adapter/in/web/lib/configure-openapi';
 
 // OpenAPIHonoアプリケーションの作成（通常のHonoではなく）
+// https://www.speakeasy.com/openapi/frameworks/hono#replacing-the-hono-instances-with-openapihono
 const app = new OpenAPIHono<AppContext>();
 
 // グローバルミドルウェア
