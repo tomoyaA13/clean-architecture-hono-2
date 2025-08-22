@@ -14,8 +14,8 @@ export class EnvConfig {
       NODE_ENV: env.NODE_ENV,
       PORT_NUMBER: env.PORT_NUMBER ? parseInt(env.PORT_NUMBER) : undefined,
       // 新しい環境変数名を優先、古い名前にフォールバック
-      DATABASE_URL: env.DATABASE_URL || env.POSTGRES_PRISMA_URL,
-      DIRECT_DATABASE_URL: env.DIRECT_DATABASE_URL || env.POSTGRES_URL_NON_POOLING,
+      DATABASE_URL: env.DATABASE_URL,
+      DIRECT_DATABASE_URL: env.DIRECT_DATABASE_URL,
       USE_MOCK_DB: env.USE_MOCK_DB,
       RESEND_API_KEY: env.RESEND_API_KEY,
       EMAIL_FROM_ADDRESS: env.EMAIL_FROM_ADDRESS,
