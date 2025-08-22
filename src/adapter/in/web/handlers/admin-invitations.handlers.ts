@@ -1,5 +1,4 @@
 import { Context } from 'hono';
-import type { CreateRoute } from '../routes/admin-invitations/routes';
 import { AdminInvitationServiceFactory } from '../../../config/admin-invitation-service-factory';
 import { AppContext } from '../../../../types/app-context';
 
@@ -10,7 +9,7 @@ import { AppContext } from '../../../../types/app-context';
 export const create = async (c: Context<AppContext>) => {
   // コントローラーを生成
   const controller = AdminInvitationServiceFactory.createPerRequestController(c);
-  
+
   // コントローラーのcreateメソッドを実行
   const { email } = await c.req.json<{ email: string }>();
   const config = controller.envConfig.config;
