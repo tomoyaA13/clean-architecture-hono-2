@@ -1,23 +1,55 @@
-// Cloudflare Workers用の設定
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["driverAdapters"]
+  // relationJoins: ジョイン戦略の最適化
+  // queryCompiler: Rustエンジンを削除してバンドルサイズを削減
+  // driverAdapters: pgドライバーアダプターを使用可能に
+  previewFeatures = ["queryCompiler", "driverAdapters", "relationJoins"]
+  output          = "../generated/prisma"
 }
 
 datasource db {
   provider  = "postgresql"
+  // Supabase の接続設定
+  // url: Transaction pooler (port 6543) - アプリケーションのクエリ用
+  //      pgbouncer=true パラメータが必須（prepared statements を無効化）
   url       = env("DATABASE_URL")
+  // directUrl: Direct connection (port 5432) - マイグレーション用
+  //           prepared statements や DDL 操作に必要
   directUrl = env("DIRECT_DATABASE_URL")
 }
 
-model AdminInvitation {
-  id        String    @id @default(cuid())
-  email     String    @unique
-  token     String    @unique
-  expiresAt DateTime
-  createdAt DateTime  @default(now())
-  usedAt    DateTime?
+model invitation_statuses {
+  code       String   @id // ステータスの一意の識別子（例：'pending', 'accepted', 'expired'など）
+  label      String // ユーザーインターフェースで表示される人間が読める形式のステータス名
+  is_active  Boolean  @default(true) // このステータスが現在アクティブかどうかを示すフラグ
+  created_at DateTime @default(now()) @db.Timestamptz // このステータスレコードが作成された日時
 
-  @@index([email])
-  @@index([token])
+  // リレーション: このステータスを持つすべての管理者招待へのリンク
+  // 1つのステータスタイプが多数の招待に関連付けられる一対多のリレーション
+  admin_invitations admin_invitations[] // このステータスを持つすべての管理者招待のリスト
+}
+
+model admin_invitations {
+  id               String   @id @default(uuid()) // 招待の一意のUUID識別子
+  email            String // 招待が送信される管理者候補のメールアドレス
+  invitation_token String   @unique // 招待を承認するために使用される一意のセキュリティトークン
+  expires_at       DateTime // 招待の有効期限が切れる日時
+  status_code      String // 招待の現在のステータス（invitation_statusesテーブルへの外部キー）
+  created_at       DateTime @default(now()) @db.Timestamptz // この招待レコードが作成された日時
+
+  // リレーション: 招待のステータスへのリンク
+  // status_code フィールドは invitation_statuses テーブルの code フィールドを参照する
+  status invitation_statuses @relation(fields: [status_code], references: [code])
+
+  // パフォーマンス最適化のためのインデックス
+  // (invitation_token のインデックスは @unique によって自動的に作成されるため、
+  // 明示的なインデックス定義は不要になります)
+  @@index([email]) // メールアドレスでの検索を高速化
+  @@index([status_code]) // ステータスコードでの検索を高速化
 }

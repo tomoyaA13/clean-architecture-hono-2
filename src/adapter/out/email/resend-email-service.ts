@@ -1,4 +1,3 @@
-// src/adapter/out/email/resend-email-service.ts
 import { SendEmailPort, EmailMessage, EmailResult } from '../../../application/port/out/send-email-port';
 
 export interface EmailServiceConfig {
@@ -16,7 +15,7 @@ export class EmailService implements SendEmailPort {
       const response = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${this.config.apiKey}`,
+          Authorization: `Bearer ${this.config.apiKey}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({

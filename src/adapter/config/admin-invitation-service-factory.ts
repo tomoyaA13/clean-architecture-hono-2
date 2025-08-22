@@ -1,4 +1,3 @@
-// src/adapter/config/admin-invitation-service-factory.ts
 import { Context } from 'hono';
 import { AdminInvitationsController } from '../in/web/controllers/admin-invitation-controller';
 import { CreateAdminInvitationApplicationService } from '../../application/service/create-admin-invitation-application-service';
@@ -19,7 +18,7 @@ export class AdminInvitationServiceFactory {
    */
   static createAdminInvitationsController(envConfig: EnvConfig): AdminInvitationsController {
     const config = envConfig.config;
-    
+
     // 1. ドメインサービス（外部依存なし）
     const adminInvitationDomainService = new AdminInvitationDomainService();
 

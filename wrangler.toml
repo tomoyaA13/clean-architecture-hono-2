@@ -2,6 +2,7 @@
 name = "lms-server"
 main = "src/index.ts"
 compatibility_date = "2024-01-01"
+node_compat = true  # pg ドライバーのサポートに必要
 minify = true
 
 # アカウントID（必要に応じて設定）
@@ -23,8 +24,8 @@ USE_MOCK_DB = "false"
 
 # シークレット環境変数（CLIまたはダッシュボードで設定）
 # これらはコミットしない - wrangler secret putコマンドで設定
-# - POSTGRES_PRISMA_URL
-# - POSTGRES_URL_NON_POOLING  
+# - DATABASE_URL              # Supabase transaction pooler URL
+# - DIRECT_DATABASE_URL       # Supabase direct connection URL
 # - RESEND_API_KEY
 # - EMAIL_REPLY_TO
 

@@ -1,0 +1,40 @@
+# .dev.vars.supabase.example
+# Supabase を使用する場合の環境変数設定例
+
+# アプリ全般の設定
+NODE_ENV=development
+PORT_NUMBER=8787
+
+# Supabase データベース設定
+# Supabase ダッシュボードの Settings > Database から取得
+# Project Reference: プロジェクトの参照ID
+# Database Password: データベースパスワード
+# Region: データベースのリージョン（例: us-west-1）
+
+# Transaction pooler (port 6543) - アプリケーションのクエリ用
+# pgbouncer=true と connection_limit=1 は必須
+DATABASE_URL=postgres://postgres.[PROJECT-REF]:[PASSWORD]@aws-0-[REGION].pooler.supabase.com:6543/postgres?pgbouncer=true&connection_limit=1
+
+# Direct connection (port 5432) - マイグレーション用
+# prepared statements や DDL操作が必要な場合に使用
+DIRECT_DATABASE_URL=postgres://postgres.[PROJECT-REF]:[PASSWORD]@aws-0-[REGION].pooler.supabase.com:5432/postgres
+
+# 開発時はモックDBを使用可能（true にすると実際のデータベースに接続しない）
+USE_MOCK_DB=false
+
+# メール設定
+RESEND_API_KEY=re_test_xxxxxxxxxxxxx
+EMAIL_FROM_ADDRESS=dev@example.com
+EMAIL_REPLY_TO=support@example.com
+USE_MOCK_EMAIL=true
+FRONTEND_URL=http://localhost:3000
+
+# Cloudflare設定（オプション）
+CF_ACCOUNT_ID=your-account-id
+CF_ZONE_ID=your-zone-id
+
+# 注意事項:
+# 1. DATABASE_URL の pgbouncer=true パラメータは必須です（prepared statements を無効化）
+# 2. connection_limit=1 はサーバーレス環境での接続プール枯渇を防ぎます
+# 3. pool_timeout=20 を追加すると接続取得のタイムアウトを調整できます
+# 4. 本番環境では wrangler secret put コマンドでこれらの値を設定してください

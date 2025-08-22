@@ -7,9 +7,9 @@ export type Bindings = {
   NODE_ENV: string;
   PORT_NUMBER: string;
 
-  // データベース設定
-  POSTGRES_PRISMA_URL?: string;
-  POSTGRES_URL_NON_POOLING?: string;
+  // データベース設定（Supabase）
+  DATABASE_URL?: string;           // Transaction pooler URL
+  DIRECT_DATABASE_URL?: string;    // Direct connection URL  
   USE_MOCK_DB?: string;
 
   // メール設定
@@ -34,9 +34,9 @@ export const EnvSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
   PORT_NUMBER: z.coerce.number().default(3000),
 
-  // データベース設定
-  POSTGRES_PRISMA_URL: z.string().url().optional(),
-  POSTGRES_URL_NON_POOLING: z.string().url().optional(),
+  // Supabase データベース設定
+  DATABASE_URL: z.string().url().optional(),
+  DIRECT_DATABASE_URL: z.string().url().optional(),
   USE_MOCK_DB: z
     .enum(['true', 'false'])
     .optional()

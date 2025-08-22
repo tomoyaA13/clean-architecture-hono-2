@@ -1,10 +1,8 @@
-// src/adapter/in/web/routes/admin-invitations/index.ts
 import { Hono } from 'hono';
 import { validator } from 'hono/validator';
 import { z } from 'zod';
 import { Bindings } from '../../../../../types/bindings';
 import { AdminInvitationServiceFactory } from '../../../../config/admin-invitation-service-factory';
-import { EnvConfig } from '../../../../../common/env-config';
 
 // リクエストバリデーションスキーマ
 const createAdminInvitationSchema = z.object({

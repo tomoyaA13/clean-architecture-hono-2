@@ -1,0 +1,21 @@
+import { PrismaClient } from '@prisma/client/extension';
+
+// Best practices for using Prisma Client in development
+// https://www.prisma.io/docs/orm/more/help-and-troubleshooting/nextjs-help#best-practices-for-using-prisma-client-in-development
+// Reuse PrismaClient or use connection pooling to avoid database connection pool exhaustion
+// https://www.prisma.io/docs/orm/prisma-client/queries/query-optimization-performance#reuse-prismaclient-or-use-connection-pooling-to-avoid-database-connection-pool-exhaustion
+
+// グローバル変数を型付けで宣言（開発環境でのホットリロード対策）
+
+declare global {
+  // eslint-disable-next-line no-var
+  var prisma: PrismaClient | undefined;
+}
+
+// 既存のインスタンスを再利用するか、新しいインスタンスを作成
+export const prisma = global.prisma || new PrismaClient();
+
+// 開発環境の場合は、グローバル変数にインスタンスを保存
+if (!envConfig.env.isProduction) {
+  global.prisma = prisma;
+}
