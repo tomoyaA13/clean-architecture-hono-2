@@ -1,12 +1,15 @@
 import { Context } from 'hono';
 import { AdminInvitationServiceFactory } from '../../../config/admin-invitation-service-factory';
 import { AppContext } from '../../../../types/app-context';
+import { AppRouteHandler } from '../common/app-route-handler';
+import { CreateRoute } from '../routes/admin-invitations/routes';
 
 /**
  * 管理者招待ハンドラー
  * 型を明示的に指定せず、直接関数として定義
+ * https://www.speakeasy.com/openapi/frameworks/hono#defining-route-handlers
  */
-export const create = async (c: Context<AppContext>) => {
+export const create: AppRouteHandler<CreateRoute> = async (c: Context<AppContext>) => {
   // コントローラーを生成
   const controller = AdminInvitationServiceFactory.createPerRequestController(c);
 
