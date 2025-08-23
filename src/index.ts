@@ -6,7 +6,7 @@ import { timing } from 'hono/timing';
 import { AppContext } from './types/app-context';
 import { EnvConfig } from './common/env-config';
 import adminInvitationsRouter from './adapter/in/web/routes/admin-invitations';
-import { errorHandler } from './adapter/in/web/middleware/error-handler';
+import { globalErrorHandler } from './adapter/in/web/middleware/error-handler';
 import { prismaMiddleware } from './adapter/in/web/middleware/prisma-middleware';
 import configureOpenAPI from './adapter/in/web/lib/configure-openapi';
 
@@ -67,7 +67,7 @@ app.use('*', async (c, next) => {
 app.use('/api/*', prismaMiddleware);
 
 // エラーハンドリングミドルウェア
-app.onError(errorHandler);
+app.onError(globalErrorHandler);
 
 // OpenAPIドキュメントの設定
 configureOpenAPI(app);
