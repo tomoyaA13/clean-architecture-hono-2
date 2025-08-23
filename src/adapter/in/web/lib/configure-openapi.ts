@@ -1,4 +1,5 @@
 import type { OpenAPIHono } from '@hono/zod-openapi';
+import { Scalar } from '@scalar/hono-api-reference';
 import type { AppContext } from '../../../../types/app-context';
 
 /**
@@ -63,4 +64,19 @@ export default function configureOpenAPI(app: OpenAPIHono<AppContext>) {
 
   // OpenAPI 3.0 ドキュメント（互換性のため）
   // app.doc('/doc-v3', openAPIObjectConfig);
+
+  // Scalar UI - インタラクティブなAPIドキュメント
+  app.get(
+    '/reference',
+    Scalar({
+      spec: {
+        url: '/doc', // OpenAPIドキュメントのURL
+      },
+      pageTitle: 'Clean Architecture Hono API Reference',
+      theme: 'purple', // テーマカラー: purple, blue, green, default など
+      layout: 'modern', // レイアウト: modern, classic
+      showSidebar: true, // サイドバーの表示
+      customCss: '', // カスタムCSSを追加可能
+    }),
+  );
 }

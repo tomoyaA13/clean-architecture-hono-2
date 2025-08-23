@@ -20,6 +20,9 @@ importers:
       '@react-email/render':
         specifier: ^1.2.1
         version: 1.2.1(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+      '@scalar/hono-api-reference':
+        specifier: ^0.9.15
+        version: 0.9.15(hono@4.9.2)
       '@supabase/supabase-js':
         specifier: ^2.56.0
         version: 2.56.0
@@ -500,6 +503,24 @@ packages:
       react: ^18.0 || ^19.0 || ^19.0.0-rc
       react-dom: ^18.0 || ^19.0 || ^19.0.0-rc
 
+  '@scalar/core@0.3.13':
+    resolution: {integrity: sha512-lgrueSjR1eacM39Zg0jAHikGomGAF2o2/s/5EcMz/ul7VLo/IBymw8gUjcGHZ9zd8PFGdo8DvOwFMRCiXiaDHw==}
+    engines: {node: '>=20'}
+
+  '@scalar/hono-api-reference@0.9.15':
+    resolution: {integrity: sha512-Lx/ity79xA3pdp624ikccDwvlY30M79e/1jvl/LjPDToc0byMr2tUVyHbmMhuaX8PVPlUKkdO97XGw0+M5IZJg==}
+    engines: {node: '>=20'}
+    peerDependencies:
+      hono: ^4.0.0
+
+  '@scalar/openapi-types@0.3.7':
+    resolution: {integrity: sha512-QHSvHBVDze3+dUwAhIGq6l1iOev4jdoqdBK7QpfeN1Q4h+6qpVEw3EEqBiH0AXUSh/iWwObBv4uMgfIx0aNZ5g==}
+    engines: {node: '>=20'}
+
+  '@scalar/types@0.2.12':
+    resolution: {integrity: sha512-CW7jS+gpc3lZdjf+888++I9HtsGCk6zbh4lZscY8spcg/dlXXd3ReYicxee/cx+soDjU1d/Pcqj9o/QqvTFYxQ==}
+    engines: {node: '>=20'}
+
   '@selderee/plugin-htmlparser2@0.11.0':
     resolution: {integrity: sha512-P33hHGdldxGabLFjPPpaTxVolMrzrcegejx+0GxjrIb9Zv48D8yAIA/QTDR2dFl7Uz7urX8aX6+5bCZslr+gWQ==}
 
@@ -927,6 +948,11 @@ packages:
   ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
 
+  nanoid@5.1.5:
+    resolution: {integrity: sha512-Ir/+ZpE9fDsNH0hQ3C68uyThDXzYcim2EqcZ8zn8Chtt1iylPT9xXJB0kPCnqzgcEGikO9RxSrh63MsmVCU7Fw==}
+    engines: {node: ^18 || >=20}
+    hasBin: true
+
   natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
 
@@ -1290,6 +1316,9 @@ packages:
   zod@3.22.3:
     resolution: {integrity: sha512-EjIevzuJRiRPbVH4mGc8nApb/lVLKVpmUhAaR5R5doKGfAnGJ6Gr3CViAVjP+4FWSxCsybeWQdcgCtbX+7oZug==}
 
+  zod@3.24.1:
+    resolution: {integrity: sha512-muH7gBL9sI1nciMZV67X5fTKKBLtwpZ5VBp1vsOQzj1MhrBZ4wlVCm3gedKZWLp0Oyel8sIGfeiz54Su+OVT+A==}
+
   zod@4.0.17:
     resolution: {integrity: sha512-1PHjlYRevNxxdy2JZ8JcNAw7rX8V9P1AKkP+x/xZfxB0K5FYfuV+Ug6P/6NVSR2jHQ+FzDDoDHS04nYUsOIyLQ==}
 
@@ -1621,6 +1650,25 @@ snapshots:
       react: 19.1.1
       react-dom: 19.1.1(react@19.1.1)
       react-promise-suspense: 0.3.4
+
+  '@scalar/core@0.3.13':
+    dependencies:
+      '@scalar/types': 0.2.12
+
+  '@scalar/hono-api-reference@0.9.15(hono@4.9.2)':
+    dependencies:
+      '@scalar/core': 0.3.13
+      hono: 4.9.2
+
+  '@scalar/openapi-types@0.3.7':
+    dependencies:
+      zod: 3.24.1
+
+  '@scalar/types@0.2.12':
+    dependencies:
+      '@scalar/openapi-types': 0.3.7
+      nanoid: 5.1.5
+      zod: 3.24.1
 
   '@selderee/plugin-htmlparser2@0.11.0':
     dependencies:
@@ -2110,6 +2158,8 @@ snapshots:
 
   ms@2.1.3: {}
 
+  nanoid@5.1.5: {}
+
   natural-compare@1.4.0: {}
 
   node-fetch-native@1.6.7: {}
@@ -2437,5 +2487,7 @@ snapshots:
       youch-core: 0.3.3
 
   zod@3.22.3: {}
+
+  zod@3.24.1: {}
 
   zod@4.0.17: {}
