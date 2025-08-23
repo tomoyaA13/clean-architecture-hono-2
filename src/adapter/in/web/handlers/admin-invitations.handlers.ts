@@ -7,7 +7,7 @@ import { CreateRoute } from '../routes/admin-invitations/routes';
 /**
  * 管理者招待ハンドラー
  * コントローラーのメソッドを呼び出すラッパー関数
- * https://www.speakeasy.com/openapi/frameworks/hono#defining-route-handlers
+ * https://www.speakeasy.com/openapi/frameworks/hono#defining-route-handlers を参考にしました。
  */
 export const create: AppRouteHandler<CreateRoute> = async (c: Context<AppContext>) => {
   // コントローラーを生成

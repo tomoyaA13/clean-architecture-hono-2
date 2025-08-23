@@ -2,6 +2,10 @@ import { createRoute } from '@hono/zod-openapi';
 import { AdminInvitationsCreateSchema, AdminInvitationsCreateSuccessSchema } from '../../common/schemas/admin-invitation/admin-invitation';
 import { createErrorResponseSchema } from '../../common/schemas/create-error-response-schema';
 
+/**
+ * https://www.speakeasy.com/openapi/frameworks/hono#defining-routes を参考にしました。
+ * Let’s split the routes and handlers into separate files for better code organization.
+ */
 export const create = createRoute({
   method: 'post',
   path: '/',

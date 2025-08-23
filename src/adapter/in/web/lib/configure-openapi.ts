@@ -3,6 +3,7 @@ import { Scalar } from '@scalar/hono-api-reference';
 import type { AppContext } from '../../../../types/app-context';
 
 /**
+ * https://www.speakeasy.com/openapi/frameworks/hono#configuring-and-generating-the-openapi-document を参考にしました。
  * OpenAPIドキュメントの設定
  */
 export const openAPIObjectConfig = {
@@ -66,6 +67,7 @@ export default function configureOpenAPI(app: OpenAPIHono<AppContext>) {
   // app.doc('/doc-v3', openAPIObjectConfig);
 
   // Scalar UI - インタラクティブなAPIドキュメント
+  // https://www.speakeasy.com/openapi/frameworks/hono#adding-scalar-ui-middleware
   app.get(
     '/reference',
     Scalar({
