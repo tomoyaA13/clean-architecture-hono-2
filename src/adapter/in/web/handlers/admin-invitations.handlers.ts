@@ -3,41 +3,16 @@ import { AdminInvitationServiceFactory } from '../../../config/admin-invitation-
 import { AppContext } from '../../../../types/app-context';
 import { AppRouteHandler } from '../common/app-route-handler';
 import { CreateRoute } from '../routes/admin-invitations/routes';
-import { DomainError, ErrorType } from '../../../../common/errors/domain-error';
 
 /**
  * 管理者招待ハンドラー
- * 型を明示的に指定せず、直接関数として定義
+ * コントローラーのメソッドを呼び出すラッパー関数
  * https://www.speakeasy.com/openapi/frameworks/hono#defining-route-handlers
  */
 export const create: AppRouteHandler<CreateRoute> = async (c: Context<AppContext>) => {
   // コントローラーを生成
   const controller = AdminInvitationServiceFactory.createPerRequestController(c);
 
-  // コントローラーのcreateメソッドを実行
-  const { email } = await c.req.json<{ email: string }>();
-  const config = controller.envConfig.config;
-
-  // 環境設定からフロントエンドURLを取得
-  const frontendOrigin = config.email.frontEndUrl;
-
-  if (!frontendOrigin) {
-    throw new DomainError(ErrorType.CONFIGURATION_ERROR, '招待リンクの生成に必要なフロントエンドURLが設定されていません。');
-  }
-
-  // UseCase に frontendOrigin を渡して招待を作成
-  const result = await controller.createAdminInvitationUseCase.createInvitation({
-    email,
-    frontendOrigin: frontendOrigin,
-  });
-
-  return c.json(
-    {
-      data: {
-        message: '確認メールを送信しました',
-        email: result.invitation.email,
-      },
-    },
-    201,
-  );
+  // コントローラーのcreateメソッドに委譲
+  return controller.create(c);
 };

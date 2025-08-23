@@ -15,8 +15,8 @@ export class AdminInvitationsController {
   ) {}
 
   /**
-   * 管理者招待を作成するハンドラー
-   * 通常のメソッドとして定義
+   * 管理者招待を作成するハンドラーメソッド
+   * インスタンスメソッド
    */
   async create(c: Context<AppContext>) {
     const { email } = await c.req.json<{ email: string }>();
