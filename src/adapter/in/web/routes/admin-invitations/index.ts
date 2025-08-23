@@ -11,6 +11,7 @@ const adminInvitationsRouter = new OpenAPIHono<AppContext>();
 adminInvitationsRouter.use(errorHandler);
 
 // ルートを定義（外部ハンドラーを使用）
+// handlers.create は関数そのものへの参照を渡している（実行していない）
 adminInvitationsRouter.openapi(routes.create, handlers.create);
 
 export default adminInvitationsRouter;
