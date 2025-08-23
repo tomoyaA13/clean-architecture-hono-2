@@ -1,9 +1,10 @@
 /**
+ * https://www.speakeasy.com/openapi/frameworks/hono#generating-an-sdk-based-on-your-openapi-document を参考にしました。
  * OpenAPIドキュメントをYAMLファイルとして生成するスクリプト
- * 
+ *
  * 使用方法:
- * 1. npm install js-yaml @types/js-yaml --save-dev
- * 2. npm run generate:openapi
+ * 1. pnpm add -D js-yaml @types/js-yaml
+ * 2. pnpm generate:openapi
  */
 
 import { writeFileSync } from 'node:fs';
@@ -33,7 +34,7 @@ console.log('✅ OpenAPIドキュメントをopenapi.jsonとして生成しま�
 const yamlString = yaml.dump(openAPIDocument, {
   indent: 2,
   lineWidth: -1, // 行の折り返しを無効化
-  noRefs: true,   // 参照を展開
+  noRefs: true, // 参照を展開
 });
 writeFileSync('openapi.yaml', yamlString);
 console.log('✅ OpenAPIドキュメントをopenapi.yamlとして生成しました');
