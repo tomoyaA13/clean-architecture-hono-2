@@ -36,6 +36,7 @@ export function createEmailService(config: { apiKey?: string; fromAddress: strin
       }
 
       const data = await response.json();
+      // TODO この TS error を修正する
       return { id: data.id, success: true };
     },
   };
