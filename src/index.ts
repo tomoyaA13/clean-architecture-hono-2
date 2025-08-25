@@ -1,16 +1,18 @@
-import { Hono } from 'hono';
+import { OpenAPIHono } from '@hono/zod-openapi';
 import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
 import { secureHeaders } from 'hono/secure-headers';
 import { timing } from 'hono/timing';
 import { AppContext } from './types/app-context';
 import { EnvConfig } from './common/env-config';
-import { adminInvitationsRouter } from './adapter/in/web/routes/admin-invitations';
-import { errorHandler } from './adapter/in/web/middleware/error-handler';
+import adminInvitationsRouter from './adapter/in/web/routes/admin-invitations';
+import { globalErrorHandler } from './adapter/in/web/middleware/error-handler';
 import { prismaMiddleware } from './adapter/in/web/middleware/prisma-middleware';
+import configureOpenAPI from './adapter/in/web/lib/configure-openapi';
 
-// Honoアプリケーションの作成
-const app = new Hono<AppContext>();
+// OpenAPIHonoアプリケーションの作成（通常のHonoではなく）
+// https://www.speakeasy.com/openapi/frameworks/hono#replacing-the-hono-instances-with-openapihono
+const app = new OpenAPIHono<AppContext>();
 
 // グローバルミドルウェア
 app.use('*', logger());
@@ -65,7 +67,10 @@ app.use('*', async (c, next) => {
 app.use('/api/*', prismaMiddleware);
 
 // エラーハンドリングミドルウェア
-app.onError(errorHandler);
+app.onError(globalErrorHandler);
+
+// OpenAPIドキュメントの設定
+configureOpenAPI(app);
 
 // ヘルスチェックエンドポイント
 app.get('/health', (c) => {

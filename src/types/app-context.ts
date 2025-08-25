@@ -1,4 +1,3 @@
-// src/types/app-context.ts
 import { PrismaClient } from '@prisma/client';
 import { EnvConfig } from '../common/env-config';
 import { Bindings } from './bindings';
@@ -8,7 +7,7 @@ import { Bindings } from './bindings';
  */
 export type AppVariables = {
   envConfig: EnvConfig;
-  prisma?: PrismaClient;  // モックDB使用時は undefined の可能性がある
+  prisma?: PrismaClient; // モックDB使用時は undefined の可能性がある
 };
 
 /**

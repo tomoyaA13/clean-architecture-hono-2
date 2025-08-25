@@ -1,0 +1,57 @@
+import type { OpenAPIHono } from '@hono/zod-openapi';
+import { apiReference } from '@scalar/hono-api-reference';
+
+// OpenAPIドキュメントの設定
+export const openAPIObjectConfig = {
+  openapi: '3.1.0',
+  info: {
+    version: '1.0.0',
+    title: 'Admin Management API',
+    description: '管理者招待システムのAPI',
+  },
+  servers: [
+    {
+      url: 'http://localhost:3000',
+      description: 'Development server',
+    },
+    {
+      url: 'https://api.example.com',
+      description: 'Production server',
+    },
+  ],
+  tags: [
+    {
+      name: 'AdminInvitations',
+      description: '管理者招待関連の操作',
+    },
+  ],
+  // Speakeasy拡張: グローバルリトライ設定
+  'x-speakeasy-retries': {
+    strategy: 'backoff',
+    backoff: {
+      initialInterval: 500,
+      maxInterval: 60000,
+      maxElapsedTime: 3600000,
+      exponent: 1.5,
+    },
+    statusCodes: ['5XX'],
+    retryConnectionErrors: true,
+  },
+};
+
+export default function configureOpenAPI(app: OpenAPIHono) {
+  // OpenAPIドキュメントを生成（/docエンドポイント）
+  app.doc31('/doc', openAPIObjectConfig);
+  
+  // Scalar UIを追加（/referenceエンドポイント）
+  app.get(
+    '/reference',
+    apiReference({
+      spec: {
+        url: '/doc', // OpenAPIドキュメントのURL
+      },
+      pageTitle: 'Admin Management API Reference',
+      theme: 'purple', // テーマカラー（optional）
+    }),
+  );
+}

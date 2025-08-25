@@ -1,8 +1,8 @@
 import { CreateAdminInvitationUseCase } from '../../../../application/port/in/create-admin-invitation-use-case';
 import { DomainError, ErrorType } from '../../../../common/errors/domain-error';
 import { EnvConfig } from '../../../../common/env-config';
-import { CreateRoute } from '../routes/admin-invitations';
-import { AppRouteHandler } from '../common/app-route-handler';
+import { Context } from 'hono';
+import { AppContext } from '../../../../types/app-context';
 
 /**
  * 受信アダプター は 受信ポート(ユースケースインターフェイス) を使用します。
@@ -10,14 +10,15 @@ import { AppRouteHandler } from '../common/app-route-handler';
  */
 export class AdminInvitationsController {
   constructor(
-    private readonly createAdminInvitationUseCase: CreateAdminInvitationUseCase,
-    private readonly envConfig: EnvConfig,
+    public readonly createAdminInvitationUseCase: CreateAdminInvitationUseCase,
+    public readonly envConfig: EnvConfig,
   ) {}
 
   /**
-   * 管理者招待を作成するハンドラー
+   * 管理者招待を作成するハンドラーメソッド
+   * インスタンスメソッド
    */
-  create: AppRouteHandler<CreateRoute> = async (c) => {
+  async create(c: Context<AppContext>) {
     const { email } = await c.req.json<{ email: string }>();
     const config = this.envConfig.config;
 
@@ -39,10 +40,9 @@ export class AdminInvitationsController {
         data: {
           message: '確認メールを送信しました',
           email: result.invitation.email,
-          // デバッグやテスト用にリンクを含めることも可能（本番では不要な場合も）
         },
       },
       201,
     );
-  };
+  }
 }

@@ -1,5 +1,6 @@
 import { z } from '@hono/zod-openapi';
 
+// https://www.speakeasy.com/openapi/frameworks/hono#adding-openapi-metadata-to-the-zod-schemas を参考にしました。
 export const AdminInvitationsCreateSchema = z.object({
   email: z
     .email('有効なメールアドレスを入力してください')
