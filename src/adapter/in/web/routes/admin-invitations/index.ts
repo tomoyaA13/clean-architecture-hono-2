@@ -3,7 +3,8 @@ import * as routes from './routes';
 import { AppContext } from '../../../../../types/app-context';
 import * as handlers from '../../handlers/admin-invitations.handlers';
 
-// https://www.speakeasy.com/openapi/frameworks/hono#configuring-the-middleware-for-each-endpoint を参考にしました。
+// https://www.speakeasy.com/openapi/frameworks/hono#configuring-the-middleware-for-each-endpoint
+// https://hono.dev/examples/zod-openapi を参考にしました。
 
 // ルーターを作成
 const adminInvitationsRouter = new OpenAPIHono<AppContext>();
