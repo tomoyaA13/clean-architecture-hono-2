@@ -5,7 +5,7 @@ import { secureHeaders } from 'hono/secure-headers';
 import { timing } from 'hono/timing';
 import { AppContext } from './types/app-context';
 import { EnvConfig } from './common/env-config';
-import adminInvitationsRouter from './adapter/in/web/routes/admin-invitations';
+import adminInvitationsRouter from './adapter/in/web/routers/admin-invitations.router';
 import { globalErrorHandler } from './adapter/in/web/middleware/error-handler';
 import { prismaMiddleware } from './adapter/in/web/middleware/prisma-middleware';
 import configureOpenAPI from './adapter/in/web/lib/configure-openapi';

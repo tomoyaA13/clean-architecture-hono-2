@@ -2,7 +2,7 @@ import { Context } from 'hono';
 import { AdminInvitationServiceFactory } from '../../../config/admin-invitation-service-factory';
 import { AppContext } from '../../../../types/app-context';
 import { AppRouteHandler } from '../common/app-route-handler';
-import { CreateRoute } from '../routes/admin-invitations/routes';
+import { CreateRoute } from '../routes/admin-invitations.routes';
 
 /**
  * 管理者招待ハンドラー

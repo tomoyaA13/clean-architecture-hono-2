@@ -1,6 +1,6 @@
 import { createRoute } from '@hono/zod-openapi';
-import { AdminInvitationsCreateSchema, AdminInvitationsCreateSuccessSchema } from '../../common/schemas/admin-invitation/admin-invitation';
-import { createErrorResponseSchema } from '../../common/schemas/create-error-response-schema';
+import { AdminInvitationsCreateSchema, AdminInvitationsCreateSuccessSchema } from '../common/schemas/admin-invitation/admin-invitation';
+import { createErrorResponseSchema } from '../common/schemas/create-error-response-schema';
 
 /**
  * https://www.speakeasy.com/openapi/frameworks/hono#defining-routes を参考にしました。

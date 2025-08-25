@@ -5,8 +5,22 @@ import { Context } from 'hono';
 import { AppContext } from '../../../../types/app-context';
 
 /**
- * 受信アダプター は 受信ポート(ユースケースインターフェイス) を使用します。
  * Cloudflare Workers環境で動作するように設計
+ *
+ * “通常、Webアダプタは次の順で処理を行ないます。
+ * 1.　送られてきたHTTPリクエストをプログラムで利用可能なオブジェクトに変換する。
+ * 2.　認証／認可の確認を行なう。
+ * 3.　入力値の妥当性確認を行なう。
+ * 4.　入力値をユースケースの入力モデルに変換する。
+ * 5 ユースケースを呼び出す。
+ * 6.　ユースケースの処理結果をHTTPレスポンスに変換する。
+ * 7.　HTTPレスポンスを返す。”
+ *
+ * Excerpt From
+ * 手を動かしてわかるクリーンアーキテクチャ　ヘキサゴナルアーキテクチャによるクリーンなアプリケーション開発
+ * Tom Hombergs
+ * This material may be protected by copyright.
+ *
  */
 export class AdminInvitationsController {
   constructor(
